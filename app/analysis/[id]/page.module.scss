@@ -1,0 +1,101 @@
+@use "sass:color";
+@use '../../../styles/variables' as *;
+@use '../../../styles/mixins' as *;
+
+.container {
+    padding: $spacing-lg;
+    max-width: 800px;
+    margin: 0 auto;
+    min-height: 100vh;
+}
+
+.header {
+    margin-bottom: $spacing-xl;
+
+    .backLink {
+        display: inline-flex;
+        align-items: center;
+        gap: $spacing-xs;
+        color: $color-text-light;
+        margin-bottom: $spacing-md;
+        font-size: 0.9rem;
+
+        &:hover {
+            color: $color-primary;
+        }
+    }
+
+    h1 {
+        font-size: 2rem;
+        color: $color-text-main;
+        margin-bottom: $spacing-xs;
+    }
+
+    .date {
+        color: $color-text-light;
+    }
+}
+
+.content {
+    @include card-style;
+    overflow-x: auto; // Handle small screens
+}
+
+.table {
+    width: 100%;
+    border-collapse: collapse;
+
+    th,
+    td {
+        padding: $spacing-md;
+        text-align: left;
+        border-bottom: 1px solid $color-border;
+    }
+
+    th {
+        color: $color-text-light;
+        font-weight: $font-weight-medium;
+        font-size: 0.9rem;
+    }
+
+    tr:last-child td {
+        border-bottom: none;
+    }
+
+    .value {
+        font-weight: $font-weight-bold;
+        color: $color-text-main;
+    }
+
+    .unit {
+        color: $color-text-light;
+        font-size: 0.9rem;
+    }
+}
+
+.badge {
+    font-size: 0.75rem;
+    font-weight: $font-weight-bold;
+    padding: 4px 8px;
+    border-radius: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    display: inline-block;
+}
+
+.ok,
+.normale {
+    background-color: rgba($color-success, 0.1);
+    color: $color-success;
+}
+
+.ko,
+.warning {
+    background-color: rgba($color-danger, 0.1);
+    color: $color-danger;
+}
+
+.default {
+    background-color: $color-bg-light;
+    color: $color-text-light;
+}

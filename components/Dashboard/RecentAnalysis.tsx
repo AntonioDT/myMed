@@ -1,13 +1,14 @@
+import Link from 'next/link';
+import { mockData } from '../../utils/mock';
 import styles from './RecentAnalysis.module.scss';
 
-const MOCK_DATA = [
-    { id: 1, category: 'Blood Work', date: 'Oct 24, 2023', status: 'Normal' },
-    { id: 2, category: 'Urine Analysis', date: 'Sep 15, 2023', status: 'Warning' },
-    { id: 3, category: 'Lipid Panel', date: 'Aug 10, 2023', status: 'Normal' },
-    { id: 4, category: 'General Checkup', date: 'Jul 05, 2023', status: 'Normal' },
-];
-
 export default function RecentAnalysis() {
+    // Helper to determine status based on values
+    const getStatus = (values: typeof mockData[0]['valori']) => {
+        const hasIssue = values.some(v => v.stato !== 'OK' && v.stato !== 'normale');
+        return hasIssue ? 'Warning' : 'Normal';
+    };
+
     return (
         <section className={styles.section}>
             <div className={styles.header}>
@@ -15,18 +16,24 @@ export default function RecentAnalysis() {
                 <button className={styles.viewAll}>View All</button>
             </div>
             <div className={styles.list}>
-                {MOCK_DATA.map((item) => (
-                    <div key={item.id} className={styles.item}>
-                        <div className={styles.info}>
-                            <span className={styles.category}>{item.category}</span>
-                            <span className={styles.date}>{item.date}</span>
-                        </div>
-                        <div className={`${styles.status} ${styles[item.status.toLowerCase()]}`}>
-                            {item.status}
-                        </div>
-                    </div>
-                ))}
+                {mockData.map((item) => {
+                    const status = getStatus(item.valori);
+                    return (
+                        <Link key={item.id} href={`/analysis/${item.id}`} className={styles.linkWrapper}>
+                            <div className={styles.item}>
+                                <div className={styles.info}>
+                                    <span className={styles.category}>{item.categoria}</span>
+                                    <span className={styles.date}>{item.data}</span>
+                                </div>
+                                <div className={`${styles.status} ${styles[status.toLowerCase()]}`}>
+                                    {status}
+                                </div>
+                            </div>
+                        </Link>
+                    );
+                })}
             </div>
         </section>
     );
 }
+

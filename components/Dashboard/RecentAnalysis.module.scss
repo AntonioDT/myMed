@@ -34,6 +34,12 @@
     gap: $spacing-sm;
 }
 
+.linkWrapper {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+}
+
 .item {
     @include flex-between;
     padding: $spacing-md;
@@ -69,15 +75,16 @@
         border-radius: 12px; // Pill shape
         text-transform: uppercase;
         letter-spacing: 0.5px;
+    }
 
-        &.normal {
-            background-color: rgba($color-success, 0.1);
-            color: $color-success;
-        }
+    // Define these as top-level classes or standalone so they are exported
+    .normal {
+        background-color: rgba($color-success, 0.1);
+        color: $color-success;
+    }
 
-        &.warning {
-            background-color: rgba($color-warning, 0.1);
-            color: $color-warning;
-        }
+    .warning {
+        background-color: rgba($color-warning, 0.1);
+        color: $color-warning;
     }
 }
