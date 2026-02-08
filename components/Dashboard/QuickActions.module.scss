@@ -1,0 +1,33 @@
+@use '../../styles/variables' as *;
+@use '../../styles/mixins' as *;
+
+.container {
+    display: flex;
+    gap: $spacing-md;
+    margin-bottom: $spacing-lg;
+    flex-wrap: wrap;
+
+    .actionButton {
+        @include flex-center;
+        gap: $spacing-sm;
+        padding: $spacing-md $spacing-lg;
+        background-color: $color-white;
+        border: 1px solid $color-border;
+        border-radius: $border-radius-md;
+        font-weight: $font-weight-medium;
+        color: $color-primary;
+        transition: all 0.2s ease;
+        box-shadow: $box-shadow-sm;
+        cursor: pointer;
+        flex: 1;
+        min-width: 200px;
+
+        &:hover {
+            background-color: $color-primary;
+            color: $color-white;
+            transform: translateY(-2px);
+            box-shadow: $box-shadow-md;
+            border-color: $color-primary;
+        }
+    }
+}

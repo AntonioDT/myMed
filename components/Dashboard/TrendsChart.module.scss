@@ -1,0 +1,33 @@
+@use '../../styles/variables' as *;
+@use '../../styles/mixins' as *;
+
+.container {
+    @include card-style;
+    min-height: 300px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 2px dashed $color-border;
+    background-color: rgba($color-bg-light, 0.5);
+}
+
+.placeholder {
+    text-align: center;
+    color: $color-text-light;
+
+    .icon {
+        margin-bottom: $spacing-md;
+        opacity: 0.5;
+        color: $color-primary;
+    }
+
+    h3 {
+        font-size: 1.1rem;
+        margin-bottom: $spacing-xs;
+        color: $color-text-main;
+    }
+
+    p {
+        font-size: 0.9rem;
+    }
+}

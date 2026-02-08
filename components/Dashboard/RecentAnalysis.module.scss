@@ -1,0 +1,83 @@
+@use "sass:color";
+@use '../../styles/variables' as *;
+@use '../../styles/mixins' as *;
+
+.section {
+    @include card-style;
+    height: 100%;
+
+    .header {
+        @include flex-between;
+        margin-bottom: $spacing-md;
+
+        h2 {
+            font-size: 1.25rem;
+            color: $color-text-main;
+            font-weight: $font-weight-bold;
+        }
+
+        .viewAll {
+            font-size: 0.875rem;
+            color: $color-primary;
+            font-weight: $font-weight-medium;
+
+            &:hover {
+                text-decoration: underline;
+            }
+        }
+    }
+}
+
+.list {
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-sm;
+}
+
+.item {
+    @include flex-between;
+    padding: $spacing-md;
+    border-radius: $border-radius-sm;
+    background-color: $color-bg-light;
+    transition: background 0.2s;
+    cursor: pointer;
+
+    &:hover {
+        background-color: color.adjust($color-bg-light, $lightness: -3%);
+    }
+
+    .info {
+        display: flex;
+        flex-direction: column;
+        gap: 2px;
+
+        .category {
+            font-weight: $font-weight-medium;
+            color: $color-text-main;
+        }
+
+        .date {
+            font-size: 0.8rem;
+            color: $color-text-light;
+        }
+    }
+
+    .status {
+        font-size: 0.75rem;
+        font-weight: $font-weight-bold;
+        padding: 4px 8px;
+        border-radius: 12px; // Pill shape
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+
+        &.normal {
+            background-color: rgba($color-success, 0.1);
+            color: $color-success;
+        }
+
+        &.warning {
+            background-color: rgba($color-warning, 0.1);
+            color: $color-warning;
+        }
+    }
+}

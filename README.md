@@ -1,4 +1,21 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# myMed
+
+myMed is a minimalist and user-friendly web application designed to help users track their medical analysis records. Built with Next.js (App Router), TypeScript, and SCSS, it offers a clean dashboard to view recent analyses, visualize trends, and manage health data.
+
+## Features
+
+- **Dashboard**: Overview of recent medical activities.
+- **Recent Analysis**: List of latest uploaded reports with status indicators.
+- **Quick Actions**: Easy access to manual entry and PDF upload (mock).
+- **Trends Chart**: Placeholder for health data visualization.
+- **Responsive Design**: Optimized for both desktop and mobile devices.
+
+## Tech Stack
+
+- **Framework**: Next.js 14+ (App Router)
+- **Language**: TypeScript
+- **Styling**: SCSS (Modules + Global Variables/Mixins)
+- **Icons**: Lucide React
 
 ## Getting Started
 
@@ -16,21 +33,21 @@ bun dev
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Project Structure
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```
+myMed/
+├── app/
+│   ├── layout.tsx       # Root layout with Navbar
+│   ├── page.tsx         # Dashboard page
+│   └── page.module.scss # Dashboard styles
+├── components/
+│   ├── Dashboard/       # Dashboard widgets (QuickActions, RecentAnalysis, etc.)
+│   └── Layout/          # Layout components (Navbar)
+├── styles/
+│   ├── globals.scss     # Global styles and resets
+│   ├── mixins.scss      # SCSS mixins and utilities
+│   └── variables.scss   # Design tokens (colors, fonts)
+└── public/              # Static assets
+```
 
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.

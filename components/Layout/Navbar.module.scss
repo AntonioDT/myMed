@@ -1,0 +1,90 @@
+@use '../../styles/variables' as *;
+@use '../../styles/mixins' as *;
+
+.navbar {
+    @include flex-between;
+    height: 64px;
+    padding: 0 $spacing-lg;
+    background-color: $color-white;
+    box-shadow: $box-shadow-sm;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+
+    @include mobile {
+        padding: 0 $spacing-md;
+    }
+}
+
+.logo {
+    font-size: 1.5rem;
+    font-weight: $font-weight-bold;
+    color: $color-primary;
+    letter-spacing: -0.5px;
+
+    a {
+        &:hover {
+            color: $color-primary; // Ensure logo doesn't change color on hover
+        }
+    }
+}
+
+.navLinks {
+    @include flex-center;
+    gap: $spacing-md;
+
+    // Hide text labels on mobile if needed, or adjust layout
+    @include mobile {
+        display: none; // For now hide on mobile or use hamburger menu later
+    }
+
+    .link {
+        @include flex-center;
+        gap: $spacing-xs;
+        color: $color-text-light;
+        font-weight: $font-weight-medium;
+        padding: $spacing-xs $spacing-sm;
+        border-radius: $border-radius-sm;
+        transition: all 0.2s ease;
+        font-size: 0.9rem;
+
+        &:hover {
+            background-color: $color-bg-light;
+            color: $color-primary;
+        }
+    }
+}
+
+.userActions {
+    @include flex-center;
+    gap: $spacing-md;
+
+    .iconButton {
+        padding: $spacing-xs;
+        border-radius: 50%;
+        transition: background-color 0.2s;
+        color: $color-text-light;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        &:hover {
+            background-color: $color-bg-light;
+            color: $color-primary;
+        }
+    }
+
+    .avatar {
+        width: 36px;
+        height: 36px;
+        background: linear-gradient(135deg, $color-primary, $color-secondary);
+        border-radius: 50%;
+        color: $color-white;
+        @include flex-center;
+        font-weight: $font-weight-bold;
+        font-size: 0.875rem;
+        cursor: pointer;
+        border: 2px solid $color-white;
+        box-shadow: 0 0 0 1px $color-border;
+    }
+}

@@ -1,0 +1,51 @@
+@use '../styles/variables' as *;
+@use '../styles/mixins' as *;
+
+.dashboard {
+    min-height: calc(100vh - 64px); // Subtract navbar height
+    padding: $spacing-lg;
+    max-width: 1200px;
+    margin: 0 auto;
+
+    @include mobile {
+        padding: $spacing-md;
+    }
+}
+
+.header {
+    margin-bottom: $spacing-lg;
+
+    h1 {
+        font-size: 2rem;
+        color: $color-text-main;
+        font-weight: $font-weight-bold;
+        margin-bottom: $spacing-xs;
+    }
+
+    p {
+        color: $color-text-light;
+        font-size: 1rem;
+    }
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr; // Main content takes 2/3, Sidebar 1/3
+    gap: $spacing-lg;
+
+    @include mobile {
+        grid-template-columns: 1fr; // Stack on mobile
+    }
+}
+
+.mainContent {
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-lg;
+}
+
+.sidebar {
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-lg;
+}
