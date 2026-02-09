@@ -1,0 +1,216 @@
+@use '../../../styles/variables' as *;
+
+.container {
+    padding: 2rem;
+    max-width: 800px;
+    margin: 0 auto;
+
+    @media (max-width: 768px) {
+        padding: 1rem;
+    }
+}
+
+.header {
+    margin-bottom: 2rem;
+
+    h1 {
+        font-size: 2rem;
+        font-weight: 700;
+        color: $color-primary;
+        margin-bottom: 0.5rem;
+    }
+}
+
+.backLink {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: $color-secondary;
+    text-decoration: none;
+    font-weight: 500;
+    margin-bottom: 1.5rem;
+    transition: color 0.2s;
+
+    &:hover {
+        color: $color-primary;
+    }
+}
+
+.form {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+.formGroup {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+
+    label {
+        font-weight: 600;
+        color: $color-secondary;
+        font-size: 0.9rem;
+    }
+
+    input,
+    select {
+        padding: 0.75rem;
+        border: 1px solid $color-border;
+        border-radius: 8px;
+        font-size: 1rem;
+        background-color: var(--card-bg, #fff);
+        /* Fallback */
+        color: $color-primary;
+        transition: color-border 0.2s;
+
+        &:focus {
+            outline: none;
+            border-color: $color-primary;
+            box-shadow: 0 0 0 3px rgba($color-primary, 0.1);
+        }
+    }
+}
+
+.section {
+    background: white;
+    border-radius: 16px;
+    padding: 1.5rem;
+    border: 1px solid $color-border;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+
+    .sectionHeader {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 1.5rem;
+        padding-bottom: 1rem;
+        border-bottom: 1px solid $color-border;
+    }
+
+    .removeSection {
+        color: #ef4444;
+        padding: 0.5rem;
+        border-radius: 8px;
+        transition: background 0.2s;
+
+        &:hover {
+            background: #fee2e2;
+        }
+    }
+}
+
+.valuesList {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.valueRow {
+    background: $color-bg-light;
+    padding: 1rem;
+    border-radius: 12px;
+    position: relative;
+
+    .rowHeader {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 1rem;
+
+        .removeValue {
+            color: #ef4444;
+            cursor: pointer;
+        }
+    }
+
+    .grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1rem;
+
+        @media (max-width: 600px) {
+            grid-template-columns: 1fr;
+        }
+    }
+
+    .fullWidth {
+        grid-column: 1 / -1;
+    }
+
+    .rangeGroup {
+        display: flex;
+        gap: 0.5rem;
+        align-items: center;
+    }
+}
+
+.actions {
+    display: flex;
+    gap: 1rem;
+    margin-top: 1rem;
+
+    button {
+        flex: 1;
+        padding: 0.75rem;
+        border-radius: 8px;
+        font-weight: 600;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+        border: none;
+        transition: all 0.2s;
+    }
+
+    .addValue {
+        background: #e0f2fe;
+        color: $color-primary;
+
+        &:hover {
+            background: #bae6fd;
+        }
+    }
+}
+
+.mainActions {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin-top: 2rem;
+
+    button {
+        padding: 1rem;
+        border-radius: 12px;
+        font-weight: 700;
+        font-size: 1.1rem;
+        cursor: pointer;
+        border: none;
+        transition: transform 0.1s;
+
+        &:active {
+            transform: scale(0.98);
+        }
+    }
+
+    .addSection {
+        background: white;
+        border: 2px dashed $color-border;
+        color: $color-secondary;
+
+        &:hover {
+            border-color: $color-primary;
+            color: $color-primary;
+        }
+    }
+
+    .submit {
+        background: $color-primary;
+        color: white;
+        box-shadow: 0 4px 12px rgba($color-primary, 0.3);
+
+        &:hover {
+            opacity: 0.9;
+        }
+    }
+}

@@ -15,10 +15,12 @@
     .backLink {
         display: inline-flex;
         align-items: center;
-        gap: $spacing-xs;
-        color: $color-text-light;
-        margin-bottom: $spacing-md;
-        font-size: 0.9rem;
+        gap: $spacing-sm;
+        color: $color-secondary;
+        text-decoration: none;
+        font-weight: $font-weight-medium;
+        margin-bottom: $spacing-lg;
+        transition: color 0.2s;
 
         &:hover {
             color: $color-primary;

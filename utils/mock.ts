@@ -1,4 +1,4 @@
-export const mockData = [
+export let mockData = [
   {
     id: "1",
     categoria: "Emocromo",
@@ -92,3 +92,7 @@ export const mockData = [
     ]
   }
 ];
+
+export const addAnalysis = (newAnalysis: any) => {
+  mockData.unshift(newAnalysis);
+};
