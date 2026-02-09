@@ -6,6 +6,7 @@ myMed is a minimalist and user-friendly web application designed to help users t
 
 - **Dashboard**: Overview of recent medical activities.
 - **Recent Analysis**: List of latest uploaded reports with status indicators.
+- **Analysis Details**: Dedicated page for each report showing detailed values.
 - **Quick Actions**: Easy access to manual entry and PDF upload (mock).
 - **Trends Chart**: Placeholder for health data visualization.
 - **Responsive Design**: Optimized for both desktop and mobile devices.
@@ -16,6 +17,7 @@ myMed is a minimalist and user-friendly web application designed to help users t
 - **Language**: TypeScript
 - **Styling**: SCSS (Modules + Global Variables/Mixins)
 - **Icons**: Lucide React
+- **Data**: Mock data integration with typed interfaces
 
 ## Getting Started
 
@@ -38,6 +40,10 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 ```
 myMed/
 ├── app/
+│   ├── analysis/        # Dynamic detail pages
+│   │   └── [id]/        # Route: /analysis/:id
+│   │       ├── page.tsx
+│   │       └── page.module.scss
 │   ├── layout.tsx       # Root layout with Navbar
 │   ├── page.tsx         # Dashboard page
 │   └── page.module.scss # Dashboard styles
@@ -48,6 +54,8 @@ myMed/
 │   ├── globals.scss     # Global styles and resets
 │   ├── mixins.scss      # SCSS mixins and utilities
 │   └── variables.scss   # Design tokens (colors, fonts)
+├── utils/
+│   └── mock.ts          # Centralized mock data
 └── public/              # Static assets
 ```
 
