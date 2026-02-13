@@ -11,11 +11,12 @@ export interface FormValue {
 }
 
 export interface FormSection {
-    category: string;
+    category?: string;
     values: FormValue[];
 }
 
 export interface ReportForm {
     date: string;
+    laboratorio?: string;
     sections: FormSection[];
 }

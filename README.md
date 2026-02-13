@@ -5,12 +5,14 @@ myMed is a minimalist and user-friendly web application designed to help users t
 ## Features
 
 - **Dashboard**: Overview of recent medical activities.
-- **Recent Analysis**: List of latest uploaded reports with status indicators.
-- **Analysis Details**: Dedicated page for each report showing detailed values.
+- **Recent Analysis**: List of latest uploaded reports with status indicators and laboratory info.
+- **Analysis Details**: Dedicated page for each report showing detailed values, including multi-segment ranges.
 - **Manual Entry**: Form to add new medical reports with dynamic sections (categories) and values.
+- **Advanced Range Management**: Support for numeric, textual, and multi-segment reference ranges (e.g., Cholesterol).
+- **Preset System**: Quick loading of standard medical ranges (Cholesterol, Glucose, Blood Pressure).
+- **Automated Status Calculation**: Real-time status assessment (OK/Warning/Critical) based on entered values.
 - **Local Persistence**: Uses `localStorage` to save new entries persistently in the browser.
 - **Quick Actions**: Easy access to manual entry and PDF upload (mock).
-- **Trends Chart**: Placeholder for health data visualization.
 - **Responsive Design**: Optimized for both desktop and mobile devices.
 
 ## Tech Stack
@@ -20,7 +22,7 @@ myMed is a minimalist and user-friendly web application designed to help users t
 - **Styling**: SCSS (Modules + Global Variables/Mixins)
 - **Form Management**: React Hook Form
 - **Icons**: Lucide React
-- **Data**: Mock data integration with typed interfaces and valid local persistence
+- **Data**: Mock data integration with typed interfaces (Reports -> Sections -> Values)
 
 ## Getting Started
 
@@ -58,7 +60,8 @@ myMed/
 │   └── variables.scss   # Design tokens (colors, fonts)
 ├── types/               # TypeScript definitions (Analysis, Form)
 ├── utils/
-│   └── mock.ts          # Centralized mock data
+│   ├── mock.ts          # Centralized mock data
+│   └── ranges.ts        # Range presets and status calculation logic
 └── public/              # Static assets
 ```
 

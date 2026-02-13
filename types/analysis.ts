@@ -1,10 +1,19 @@
-export type RangeType = 'numerico' | 'testuale';
+export type RangeType = 'numerico' | 'testuale' | 'multi-range';
+
+export interface RangeSegment {
+    min?: number | null;
+    max?: number | null;
+    label: string;
+    status: 'OK' | 'Warning' | 'Critical';
+    color?: string;
+}
 
 export interface Range {
     tipo: RangeType;
     min?: number | null;
     max?: number | null;
     testo?: string;
+    segmenti?: RangeSegment[];
 }
 
 export interface Value {
@@ -16,9 +25,15 @@ export interface Value {
     stato: string;
 }
 
+export interface Section {
+    id: string;
+    categoria: string | null;
+    valori: Value[];
+}
+
 export interface Analysis {
     id: string;
-    categoria: string;
     data: string;
-    valori: Value[];
+    laboratorio?: string;
+    sezioni: Section[];
 }

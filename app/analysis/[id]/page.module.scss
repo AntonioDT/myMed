@@ -43,6 +43,22 @@
     overflow-x: auto; // Handle small screens
 }
 
+.section {
+    margin-bottom: $spacing-xl;
+
+    &:last-child {
+        margin-bottom: 0;
+    }
+
+    h2 {
+        font-size: 1.25rem;
+        color: $color-primary;
+        margin-bottom: $spacing-md;
+        padding-bottom: $spacing-xs;
+        border-bottom: 1px solid $color-border;
+    }
+}
+
 .table {
     width: 100%;
     border-collapse: collapse;
@@ -67,6 +83,27 @@
     .value {
         font-weight: $font-weight-bold;
         color: $color-text-main;
+    }
+
+    .valueName {
+        font-weight: $font-weight-medium;
+    }
+
+    .rangeDetails {
+        margin-top: $spacing-xs;
+        font-size: 0.8rem;
+        color: $color-text-light;
+    }
+
+    .rangeSegment {
+        display: block;
+        line-height: 1.4;
+    }
+
+    .segmentLabel {
+        font-weight: $font-weight-bold;
+        margin-right: 4px;
+        color: $color-primary;
     }
 
     .unit {

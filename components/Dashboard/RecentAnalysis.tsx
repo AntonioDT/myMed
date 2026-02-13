@@ -34,9 +34,19 @@ export default function RecentAnalysis() {
         }
     }, []);
 
-    // Helper to determine status based on values
-    const getStatus = (values: Analysis['valori']) => {
-        const hasIssue = values.some(v => v.stato !== 'OK' && v.stato !== 'normale');
+    // Helper to determine status based on sections
+    const getStatus = (sections: Analysis['sezioni']) => {
+        if (!sections || !Array.isArray(sections)) return 'Normal'; // Handle legacy/invalid data
+
+        let hasIssue = false;
+
+        for (const section of sections) {
+            if (section.valori.some(v => v.stato !== 'OK' && v.stato !== 'normale')) {
+                hasIssue = true;
+                break;
+            }
+        }
+
         return hasIssue ? 'Warning' : 'Normal';
     };
 
@@ -47,14 +57,16 @@ export default function RecentAnalysis() {
                 <button className={styles.viewAll}>View All</button>
             </div>
             <div className={styles.list}>
-                {analysisList.map((item) => {
-                    const status = getStatus(item.valori);
+                {analysisList.map((item: Analysis) => {
+                    const status = getStatus(item.sezioni);
+                    // Check if laboratorio exists to conditionally render it
+                    const label = `Referto ${item.data}${item.laboratorio ? ` - ${item.laboratorio}` : ''}`;
+
                     return (
                         <Link key={item.id} href={`/analysis/${item.id}`} className={styles.linkWrapper}>
                             <div className={styles.item}>
                                 <div className={styles.info}>
-                                    <span className={styles.category}>{item.categoria}</span>
-                                    <span className={styles.date}>{item.data}</span>
+                                    <span className={styles.category}>{label}</span>
                                 </div>
                                 <div className={`${styles.status} ${styles[status.toLowerCase()]}`}>
                                     {status}
