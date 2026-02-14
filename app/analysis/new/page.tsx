@@ -42,6 +42,14 @@ export default function AddAnalysisPage() {
     });
 
     const onSubmit = (data: ReportForm) => {
+        // Validation: Verify there is at least one value
+        const hasValues = data.sections.some(section => section.values && section.values.length > 0);
+
+        if (!hasValues) {
+            alert("Cannot save an empty report. Please add at least one value.");
+            return;
+        }
+
         // Transform data to match the Analysis interface and save
 
         const analysisEntry = {
@@ -92,7 +100,7 @@ export default function AddAnalysisPage() {
             }))
         };
 
-        addAnalysis(analysisEntry);
+        // addAnalysis(analysisEntry); // Removed to prevent double entry (in memory + localStorage)
         const newEntries = [analysisEntry];
 
         // Save to localStorage for persistence across reloads/navigations
