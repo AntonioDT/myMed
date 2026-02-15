@@ -11,6 +11,8 @@ import { addAnalysis } from '@/utils/mock';
 import clsx from 'clsx';
 import { RangeType } from '@/types/analysis';
 import { RANGE_PRESETS, Preset, calculateStatus } from '@/utils/ranges';
+import { UNITS } from '@/utils/units';
+import { Select } from '@/components/Select';
 
 const DEFAULT_VALUE: FormValue = {
     name: '',
@@ -260,13 +262,18 @@ function ValueRow({ control, sectionIndex, valueIndex, register, remove, setValu
         <div className={styles.valueRow}>
             <div className={styles.rowHeader}>
                 <span>Value #{valueIndex + 1}</span>
-                <div style={{ display: 'flex', gap: '10px' }}>
-                    <select onChange={handlePresetChange} className={styles.presetSelect} style={{ padding: '4px', fontSize: '0.8rem' }}>
-                        <option value="">Load Preset...</option>
+                <div style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
+                    <Select
+                        onChange={handlePresetChange}
+                        className={styles.presetSelect}
+                        style={{ padding: '4px', fontSize: '0.8rem', width: 'auto' }}
+                        value=""
+                    >
+                        <option value="" disabled>Load Preset...</option>
                         {RANGE_PRESETS.map(p => (
                             <option key={p.id} value={p.id}>{p.name}</option>
                         ))}
-                    </select>
+                    </Select>
                     <button type="button" onClick={remove} className={styles.removeValue}>
                         <Trash2 size={16} />
                     </button>
@@ -284,15 +291,22 @@ function ValueRow({ control, sectionIndex, valueIndex, register, remove, setValu
                 </div>
                 <div className={styles.formGroup}>
                     <label>Unit</label>
-                    <input {...register(`sections.${sectionIndex}.values.${valueIndex}.unit`)} placeholder="e.g. mg/dL" />
+                    <UnitSelect
+                        control={control}
+                        sectionIndex={sectionIndex}
+                        valueIndex={valueIndex}
+                        setValue={setValue}
+                    />
                 </div>
                 <div className={styles.formGroup}>
-                    <label>Range Type</label>
-                    <select {...register(`sections.${sectionIndex}.values.${valueIndex}.rangeType`)}>
+                    <Select
+                        label="Range Type"
+                        {...register(`sections.${sectionIndex}.values.${valueIndex}.rangeType`)}
+                    >
                         <option value="numerico">Numeric</option>
                         <option value="testuale">Textual</option>
                         <option value="multi-range">Multi-segment / Preset</option>
-                    </select>
+                    </Select>
                 </div>
 
                 {rangeType === 'numerico' && (
@@ -342,5 +356,70 @@ function ValueRow({ control, sectionIndex, valueIndex, register, remove, setValu
                 )}
             </div>
         </div>
+    );
+}
+
+function UnitSelect({ control, sectionIndex, valueIndex, setValue }: { control: Control<ReportForm>, sectionIndex: number, valueIndex: number, setValue: any }) {
+    const unitValue = useWatch({
+        control,
+        name: `sections.${sectionIndex}.values.${valueIndex}.unit`
+    });
+
+    const isCustom = unitValue && !UNITS.includes(unitValue) && unitValue !== 'custom';
+
+    const handleSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+        const value = e.target.value;
+        if (value === 'OTHER') {
+            setValue(`sections.${sectionIndex}.values.${valueIndex}.unit`, 'custom');
+        } else {
+            setValue(`sections.${sectionIndex}.values.${valueIndex}.unit`, value);
+        }
+    };
+
+    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setValue(`sections.${sectionIndex}.values.${valueIndex}.unit`, e.target.value);
+    };
+
+    const clearCustom = () => {
+        setValue(`sections.${sectionIndex}.values.${valueIndex}.unit`, '');
+    };
+
+    const showInput = unitValue === 'custom' || isCustom;
+
+    if (showInput) {
+        return (
+            <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
+                <input
+                    type="text"
+                    value={unitValue === 'custom' ? '' : unitValue}
+                    onChange={handleInputChange}
+                    placeholder="Type unit..."
+                    autoFocus={unitValue === 'custom'}
+                    style={{ flex: 1, padding: '8px', borderRadius: '4px', border: '1px solid #ddd' }}
+                />
+                <button
+                    type="button"
+                    onClick={clearCustom}
+                    title="Back to list"
+                    style={{ padding: '4px 8px', background: '#f0f0f0', border: '1px solid #ccc', borderRadius: '4px', cursor: 'pointer', fontSize: '1.2rem', lineHeight: '1' }}
+                >
+                    ×
+                </button>
+            </div>
+        );
+    }
+
+    return (
+        <Select
+            value={UNITS.includes(unitValue) ? unitValue : ''}
+            onChange={handleSelectChange}
+            style={{ width: '100%' }}
+        >
+            <option value="">Select Unit...</option>
+            {UNITS.map(u => (
+                <option key={u} value={u}>{u}</option>
+            ))}
+            <option value="OTHER">Altro...</option>
+        </Select>
     );
 }

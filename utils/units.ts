@@ -1,0 +1,20 @@
+export const UNITS = [
+    "x10^3/µL",
+    "x10^6/µL",
+    "x10^3/mmc",
+    "x10^6/mmc",
+    "gr/dl",
+    "g/dL",
+    "μm^3",
+    "ng/mL",
+    "mg/dL",
+    "µmol/L",
+    "%",
+    "fl",
+    "pg",
+    "/µL",
+    "n°/µL",
+    "micg/g",
+    "U/mL",
+    "nessuna"
+];

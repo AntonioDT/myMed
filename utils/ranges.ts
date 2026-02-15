@@ -88,6 +88,22 @@ export const RANGE_PRESETS: Preset[] = [
         { min: 30, label: "Valore ottimale", status: 'OK', color: "green" }
       ]
     }
+  },
+  {
+    id: "proteine-urine",
+    name: "Proteine (URINE)",
+    unit: "mg/dL",
+    range: {
+      tipo: "multi-range",
+      segmenti: [
+        { max: 5, label: "Assente", status: "OK", color: "green" },
+        { min: 6, max: 20, label: "Tracce", status: "Warning", color: "yellow" },
+        { min: 21, max: 70, label: "Presente +", status: "Warning", color: "orange" },
+        { min: 22, max: 200, label: "Presente ++", status: "Warning", color: "orange" },
+        { min: 201, max: 400, label: "Presente +++", status: "Warning", color: "orange" },
+        { min: 401, label: "Presente ++++", status: "Critical", color: "red" }
+      ]
+    }
   }
 ];
 
