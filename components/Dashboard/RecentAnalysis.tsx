@@ -2,22 +2,18 @@
 
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
-import { mockData } from '../../utils/mock';
 import styles from './RecentAnalysis.module.scss';
 import { Analysis } from '@/types/analysis';
 
 export default function RecentAnalysis() {
-    const [analysisList, setAnalysisList] = useState<any[]>(mockData);
+    const [analysisList, setAnalysisList] = useState<any[]>([]);
 
     useEffect(() => {
         const storedData = localStorage.getItem('myMed_analysis_data');
         if (storedData) {
             try {
                 const parsedData = JSON.parse(storedData);
-                const combined = [...parsedData, ...mockData];
-                // Deduplicate by ID to ensure unique keys
-                const uniqueList = Array.from(new Map(combined.map((item: any) => [item.id, item])).values());
-                setAnalysisList(uniqueList);
+                setAnalysisList(parsedData);
             } catch (e) {
                 console.error("Failed to parse stored analysis", e);
             }
@@ -47,24 +43,28 @@ export default function RecentAnalysis() {
                 <button className={styles.viewAll}>View All</button>
             </div>
             <div className={styles.list}>
-                {analysisList.map((item: Analysis) => {
-                    const status = getStatus(item.sezioni);
-                    // Check if laboratorio exists to conditionally render it
-                    const label = `Referto ${item.data}${item.laboratorio ? ` - ${item.laboratorio}` : ''}`;
+                {analysisList.length === 0 ? (
+                    <div className={styles.emptyState}>No recent analysis found.</div>
+                ) : (
+                    analysisList.map((item: Analysis) => {
+                        const status = getStatus(item.sezioni);
+                        // Check if laboratorio exists to conditionally render it
+                        const label = `Referto ${item.data}${item.laboratorio ? ` - ${item.laboratorio}` : ''}`;
 
-                    return (
-                        <Link key={item.id} href={`/analysis/${item.id}`} className={styles.linkWrapper}>
-                            <div className={styles.item}>
-                                <div className={styles.info}>
-                                    <span className={styles.category}>{label}</span>
+                        return (
+                            <Link key={item.id} href={`/analysis/${item.id}`} className={styles.linkWrapper}>
+                                <div className={styles.item}>
+                                    <div className={styles.info}>
+                                        <span className={styles.category}>{label}</span>
+                                    </div>
+                                    <div className={`${styles.status} ${styles[status.toLowerCase()]}`}>
+                                        {status}
+                                    </div>
                                 </div>
-                                <div className={`${styles.status} ${styles[status.toLowerCase()]}`}>
-                                    {status}
-                                </div>
-                            </div>
-                        </Link>
-                    );
-                })}
+                            </Link>
+                        );
+                    })
+                )}
             </div>
         </section>
     );

@@ -1,14 +1,11 @@
-import { mockData } from '@/utils/mock';
+'use client';
+
+import { useEffect, useState } from 'react';
 import styles from './page.module.scss';
 import Link from 'next/link';
 import { ArrowLeft } from 'lucide-react';
 import { Analysis, Range } from '@/types/analysis';
-
-export async function generateStaticParams() {
-    return mockData.map((item) => ({
-        id: item.id,
-    }));
-}
+import { useParams } from 'next/navigation';
 
 function formatRange(range: Range) {
     if (range.tipo === 'numerico') {
@@ -30,10 +27,31 @@ function formatRange(range: Range) {
     return '-';
 }
 
-export default async function AnalysisDetail({ params }: { params: Promise<{ id: string }> }) {
-    const { id } = await params;
-    // Cast mock data to Analysis type for type safety in this component since mock.ts isn't strictly typed yet
-    const analysis = (mockData as unknown as Analysis[]).find((item) => item.id === id);
+export default function AnalysisDetail() {
+    const params = useParams();
+    const id = params?.id as string;
+    const [analysis, setAnalysis] = useState<Analysis | null>(null);
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        if (!id) return;
+
+        const storedData = localStorage.getItem('myMed_analysis_data');
+        if (storedData) {
+            try {
+                const parsedData = JSON.parse(storedData);
+                const found = parsedData.find((item: Analysis) => item.id === id);
+                setAnalysis(found || null);
+            } catch (e) {
+                console.error("Failed to parse stored analysis", e);
+            }
+        }
+        setLoading(false);
+    }, [id]);
+
+    if (loading) {
+        return <div className={styles.container}><p>Loading...</p></div>;
+    }
 
     if (!analysis) {
         return (

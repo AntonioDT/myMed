@@ -7,7 +7,6 @@ import { useRouter } from 'next/navigation';
 import { ArrowLeft, Plus, Trash2, Save } from 'lucide-react';
 import styles from './page.module.scss';
 import { ReportForm, FormSection, FormValue } from '@/types/form';
-import { addAnalysis } from '@/utils/mock';
 import clsx from 'clsx';
 import { RangeType } from '@/types/analysis';
 import { RANGE_PRESETS, Preset, calculateStatus } from '@/utils/ranges';
