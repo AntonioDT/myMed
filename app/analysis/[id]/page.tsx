@@ -3,9 +3,10 @@
 import { useEffect, useState } from 'react';
 import styles from './page.module.scss';
 import Link from 'next/link';
-import { ArrowLeft } from 'lucide-react';
+import { ArrowLeft, Pencil, Trash2 } from 'lucide-react';
 import { Analysis, Range } from '@/types/analysis';
-import { useParams } from 'next/navigation';
+import { useParams, useRouter } from 'next/navigation';
+import Modal from '@/components/Modal/Modal';
 
 function formatRange(range: Range) {
     if (range.tipo === 'numerico') {
@@ -29,9 +30,11 @@ function formatRange(range: Range) {
 
 export default function AnalysisDetail() {
     const params = useParams();
+    const router = useRouter();
     const id = params?.id as string;
     const [analysis, setAnalysis] = useState<Analysis | null>(null);
     const [loading, setLoading] = useState(true);
+    const [showDeleteModal, setShowDeleteModal] = useState(false);
 
     useEffect(() => {
         if (!id) return;
@@ -48,6 +51,20 @@ export default function AnalysisDetail() {
         }
         setLoading(false);
     }, [id]);
+
+    const handleDelete = () => {
+        try {
+            const storedData = localStorage.getItem('myMed_analysis_data');
+            if (storedData) {
+                const parsedData: Analysis[] = JSON.parse(storedData);
+                const filtered = parsedData.filter(item => item.id !== id);
+                localStorage.setItem('myMed_analysis_data', JSON.stringify(filtered));
+            }
+        } catch (e) {
+            console.error('Failed to delete analysis', e);
+        }
+        router.push('/');
+    };
 
     if (loading) {
         return <div className={styles.container}><p>Loading...</p></div>;
@@ -69,7 +86,22 @@ export default function AnalysisDetail() {
                     <ArrowLeft size={20} />
                     Back to Dashboard
                 </Link>
-                <h1>Referto {analysis.data} {analysis.laboratorio ? `- ${analysis.laboratorio}` : ''}</h1>
+                <div className={styles.headerRow}>
+                    <h1>Referto {analysis.data} {analysis.laboratorio ? `- ${analysis.laboratorio}` : ''}</h1>
+                    <div className={styles.headerActions}>
+                        <Link href={`/analysis/new?editId=${analysis.id}`} className={styles.editButton}>
+                            <Pencil size={18} />
+                            Modifica
+                        </Link>
+                        <button
+                            className={styles.deleteButton}
+                            onClick={() => setShowDeleteModal(true)}
+                        >
+                            <Trash2 size={18} />
+                            Elimina
+                        </button>
+                    </div>
+                </div>
             </header>
 
             <div className={styles.content}>
@@ -91,9 +123,13 @@ export default function AnalysisDetail() {
                                     <tr key={val.id} className={styles.row}>
                                         <td>
                                             <div className={styles.valueName}>{val.nomeValore}</div>
-                                            {val.range.tipo === 'multi-range' && val.range.segmenti && (
+                                        </td>
+                                        <td className={styles.value}>{val.valore}</td>
+                                        <td className={styles.unit}>{val.unitaMisura || '-'}</td>
+                                        <td className={styles.range}>
+                                            {val.range.tipo !== 'multi-range' ? formatRange(val.range) : (
                                                 <div className={styles.rangeDetails}>
-                                                    {val.range.segmenti.map((seg, i) => (
+                                                    {val.range.segmenti?.map((seg, i) => (
                                                         <div key={i} className={styles.rangeSegment}>
                                                             <span className={styles.segmentLabel}>{seg.label}:</span>
                                                             {seg.min !== undefined ? ` > ${seg.min}` : ''}
@@ -103,11 +139,6 @@ export default function AnalysisDetail() {
                                                     ))}
                                                 </div>
                                             )}
-                                        </td>
-                                        <td className={styles.value}>{val.valore}</td>
-                                        <td className={styles.unit}>{val.unitaMisura || '-'}</td>
-                                        <td className={styles.range}>
-                                            {val.range.tipo !== 'multi-range' ? formatRange(val.range) : '-'}
                                         </td>
                                         <td>
                                             <span className={`${styles.badge} ${styles[val.stato.toLowerCase()] || styles.default}`}>
@@ -121,6 +152,17 @@ export default function AnalysisDetail() {
                     </div>
                 ))}
             </div>
+
+            <Modal
+                isOpen={showDeleteModal}
+                onClose={() => setShowDeleteModal(false)}
+                onConfirm={handleDelete}
+                title="Elimina referto"
+                message={`Sei sicuro di voler eliminare il referto del ${analysis.data}? Questa azione non può essere annullata.`}
+                confirmLabel="Elimina"
+                cancelLabel="Annulla"
+                variant="danger"
+            />
         </div>
     );
 }

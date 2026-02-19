@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { Settings, LayoutDashboard } from 'lucide-react';
+import { Settings, LayoutDashboard, FileText } from 'lucide-react';
 import styles from './Navbar.module.scss';
 
 export default function Navbar() {
@@ -9,14 +9,14 @@ export default function Navbar() {
                 <Link href="/">myMed</Link>
             </div>
 
-            {/* 
-        For now, we just have the Dashboard link. 
-        As the app grows, we can add more navigation items here.
-      */}
             <div className={styles.navLinks}>
                 <Link href="/" className={styles.link}>
                     <LayoutDashboard size={18} />
                     <span>Dashboard</span>
+                </Link>
+                <Link href="/analysis" className={styles.link}>
+                    <FileText size={18} />
+                    <span>Referti</span>
                 </Link>
             </div>
 

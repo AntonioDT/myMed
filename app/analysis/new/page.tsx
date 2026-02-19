@@ -1,14 +1,14 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect, Suspense } from 'react';
 import { useForm, useFieldArray, Control, useWatch } from 'react-hook-form';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { ArrowLeft, Plus, Trash2, Save } from 'lucide-react';
 import styles from './page.module.scss';
 import { ReportForm, FormSection, FormValue } from '@/types/form';
 import clsx from 'clsx';
-import { RangeType } from '@/types/analysis';
+import { RangeType, Analysis } from '@/types/analysis';
 import { RANGE_PRESETS, Preset, calculateStatus } from '@/utils/ranges';
 import { UNITS } from '@/utils/units';
 import { Select } from '@/components/Select';
@@ -29,13 +29,63 @@ const DEFAULT_SECTION: FormSection = {
 };
 
 export default function AddAnalysisPage() {
+    return (
+        <Suspense fallback={<div className={styles.container}><p>Loading...</p></div>}>
+            <AddAnalysisPageContent />
+        </Suspense>
+    );
+}
+
+function AddAnalysisPageContent() {
     const router = useRouter();
-    const { register, control, handleSubmit, setValue, formState: { errors } } = useForm<ReportForm>({
+    const searchParams = useSearchParams();
+    const editId = searchParams.get('editId');
+    const [isEditMode, setIsEditMode] = useState(false);
+
+    const { register, control, handleSubmit, setValue, reset, formState: { errors } } = useForm<ReportForm>({
         defaultValues: {
             date: new Date().toISOString().split('T')[0],
             sections: [DEFAULT_SECTION]
         }
     });
+
+    // Load existing analysis data when editing
+    useEffect(() => {
+        if (!editId) return;
+
+        const storedData = localStorage.getItem('myMed_analysis_data');
+        if (!storedData) return;
+
+        try {
+            const parsedData: Analysis[] = JSON.parse(storedData);
+            const existing = parsedData.find(item => item.id === editId);
+            if (!existing) return;
+
+            setIsEditMode(true);
+
+            // Convert Analysis -> ReportForm shape
+            const formData: ReportForm = {
+                date: existing.data,
+                laboratorio: existing.laboratorio || '',
+                sections: existing.sezioni.map(section => ({
+                    category: section.categoria || '',
+                    values: section.valori.map(val => ({
+                        name: val.nomeValore,
+                        value: String(val.valore),
+                        unit: val.unitaMisura || '',
+                        rangeType: val.range.tipo,
+                        min: val.range.min !== null && val.range.min !== undefined ? String(val.range.min) : '',
+                        max: val.range.max !== null && val.range.max !== undefined ? String(val.range.max) : '',
+                        textRange: val.range.testo || ''
+                    }))
+                }))
+            };
+
+            reset(formData);
+        } catch (e) {
+            console.error('Failed to load analysis for editing', e);
+        }
+    }, [editId, reset]);
 
     const { fields: sectionFields, append: appendSection, remove: removeSection } = useFieldArray({
         control,
@@ -52,17 +102,15 @@ export default function AddAnalysisPage() {
         }
 
         // Transform data to match the Analysis interface and save
-
         const analysisEntry = {
-            id: Date.now().toString(),
+            id: isEditMode && editId ? editId : Date.now().toString(),
             data: data.date,
             laboratorio: data.laboratorio,
             sezioni: data.sections.map((section, idx) => ({
                 id: `sec-${Date.now()}-${idx}`,
                 categoria: section.category || null,
                 valori: section.values.map((val, vIdx) => {
-                    const preset = RANGE_PRESETS.find(p => p.name === val.name); // Simple match by name for now, ideal would be ID
-                    // If rangeType is multi-range, try to find the preset definition
+                    const preset = RANGE_PRESETS.find(p => p.name === val.name);
 
                     let rangeObj: any = {
                         tipo: val.rangeType,
@@ -75,18 +123,8 @@ export default function AddAnalysisPage() {
                         rangeObj = preset.range;
                     }
 
-                    // Calculate status
-                    // We need a helper here or import it
-                    // For now let's use a simplified local check or assume the helper helps us on render
-                    // But we store 'stato' in the DB. So we should calculate it now.
-
-                    // Let's bring in calculateStatus or replicate simple logic?
-                    // Better to rely on helper. But we can't easily import logic inside map if it's complex.
-                    // Let's import calculateStatus from utils/ranges at top of file.
-
-                    const numVal = parseFloat(val.value); // Might be string if textual
+                    const numVal = parseFloat(val.value);
                     const valForCalc = isNaN(numVal) ? val.value : numVal;
-
                     const statusResult = calculateStatus(valForCalc, rangeObj);
 
                     return {
@@ -101,21 +139,31 @@ export default function AddAnalysisPage() {
             }))
         };
 
-        // addAnalysis(analysisEntry); // Removed to prevent double entry (in memory + localStorage)
-        const newEntries = [analysisEntry];
-
-        // Save to localStorage for persistence across reloads/navigations
         try {
             const existingData = localStorage.getItem('myMed_analysis_data');
             const parsedData = existingData ? JSON.parse(existingData) : [];
-            const updatedData = [...newEntries, ...parsedData];
-            localStorage.setItem('myMed_analysis_data', JSON.stringify(updatedData));
+
+            if (isEditMode && editId) {
+                // Update: replace the existing entry
+                const index = parsedData.findIndex((item: Analysis) => item.id === editId);
+                if (index !== -1) {
+                    parsedData[index] = analysisEntry;
+                } else {
+                    // Fallback: if not found, prepend
+                    parsedData.unshift(analysisEntry);
+                }
+                localStorage.setItem('myMed_analysis_data', JSON.stringify(parsedData));
+            } else {
+                // Create: prepend new entry
+                const updatedData = [analysisEntry, ...parsedData];
+                localStorage.setItem('myMed_analysis_data', JSON.stringify(updatedData));
+            }
         } catch (error) {
             console.error('Failed to save to localStorage', error);
         }
 
-        alert("Analysis saved successfully!");
-        router.push('/');
+        alert(isEditMode ? "Analysis updated successfully!" : "Analysis saved successfully!");
+        router.push(isEditMode && editId ? `/analysis/${editId}` : '/');
     };
 
     return (
@@ -125,7 +173,7 @@ export default function AddAnalysisPage() {
                     <ArrowLeft size={20} />
                     Back to Dashboard
                 </Link>
-                <h1>New Analysis Report</h1>
+                <h1>{isEditMode ? 'Edit Analysis Report' : 'New Analysis Report'}</h1>
             </header>
 
             <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>

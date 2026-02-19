@@ -1,0 +1,109 @@
+@use '../../styles/variables' as *;
+@use '../../styles/mixins' as *;
+
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: $spacing-md;
+    animation: fadeIn 0.15s ease;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateY(12px) scale(0.97);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+.modal {
+    background: $color-white;
+    border-radius: $border-radius-lg;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+    width: 100%;
+    max-width: 420px;
+    padding: $spacing-xl;
+    animation: slideUp 0.2s ease;
+}
+
+.title {
+    font-size: 1.2rem;
+    font-weight: $font-weight-bold;
+    color: $color-text-main;
+    margin-bottom: $spacing-sm;
+}
+
+.message {
+    font-size: 0.95rem;
+    color: $color-text-light;
+    line-height: 1.5;
+    margin-bottom: $spacing-xl;
+}
+
+.actions {
+    display: flex;
+    gap: $spacing-sm;
+    justify-content: flex-end;
+}
+
+.cancelButton {
+    padding: 10px 20px;
+    border-radius: $border-radius-md;
+    font-weight: $font-weight-medium;
+    font-size: 0.9rem;
+    cursor: pointer;
+    border: 1px solid $color-border;
+    background: $color-white;
+    color: $color-text-main;
+    transition: background 0.15s;
+
+    &:hover {
+        background: $color-bg-light;
+    }
+}
+
+.confirmButton {
+    padding: 10px 20px;
+    border-radius: $border-radius-md;
+    font-weight: $font-weight-bold;
+    font-size: 0.9rem;
+    cursor: pointer;
+    border: none;
+    transition: opacity 0.15s;
+
+    &:hover {
+        opacity: 0.85;
+    }
+}
+
+.danger {
+    background: $color-danger;
+    color: $color-white;
+}
+
+.primary {
+    background: $color-primary;
+    color: $color-white;
+}

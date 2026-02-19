@@ -27,10 +27,65 @@
         }
     }
 
+    .headerRow {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: $spacing-md;
+        flex-wrap: wrap;
+    }
+
     h1 {
         font-size: 2rem;
         color: $color-text-main;
-        margin-bottom: $spacing-xs;
+        margin-bottom: 0;
+    }
+
+    .headerActions {
+        display: flex;
+        align-items: center;
+        gap: $spacing-sm;
+    }
+
+    .editButton {
+        display: inline-flex;
+        align-items: center;
+        gap: $spacing-xs;
+        padding: 8px 16px;
+        border-radius: 8px;
+        background-color: rgba($color-primary, 0.1);
+        color: $color-primary;
+        font-weight: $font-weight-medium;
+        font-size: 0.9rem;
+        text-decoration: none;
+        transition: background-color 0.2s, color 0.2s;
+        white-space: nowrap;
+
+        &:hover {
+            background-color: $color-primary;
+            color: white;
+        }
+    }
+
+    .deleteButton {
+        display: inline-flex;
+        align-items: center;
+        gap: $spacing-xs;
+        padding: 8px 16px;
+        border-radius: 8px;
+        background-color: rgba($color-danger, 0.1);
+        color: $color-danger;
+        font-weight: $font-weight-medium;
+        font-size: 0.9rem;
+        border: none;
+        cursor: pointer;
+        transition: background-color 0.2s, color 0.2s;
+        white-space: nowrap;
+
+        &:hover {
+            background-color: $color-danger;
+            color: white;
+        }
     }
 
     .date {

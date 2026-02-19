@@ -40,7 +40,7 @@ export default function RecentAnalysis() {
         <section className={styles.section}>
             <div className={styles.header}>
                 <h2>Recent Analysis</h2>
-                <button className={styles.viewAll}>View All</button>
+                <Link href="/analysis" className={styles.viewAll}>View All</Link>
             </div>
             <div className={styles.list}>
                 {analysisList.length === 0 ? (
