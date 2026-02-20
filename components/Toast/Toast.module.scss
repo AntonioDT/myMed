@@ -1,0 +1,79 @@
+@use '../../styles/variables.scss' as *;
+
+.toastContainer {
+    position: fixed;
+    bottom: 24px;
+    left: 50%;
+    transform: translateX(-50%) translateY(100px);
+    z-index: 1000;
+    width: auto;
+    max-width: 90%;
+    transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.3s ease;
+    opacity: 0;
+    pointer-events: none;
+
+    &.visible {
+        transform: translateX(-50%) translateY(0);
+        opacity: 1;
+        pointer-events: all;
+    }
+}
+
+.toast {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 24px;
+    border-radius: 50px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+    color: $color-white;
+    font-weight: $font-weight-medium;
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.success .toast {
+    background-color: rgba($color-success, 0.9);
+}
+
+.error .toast {
+    background-color: rgba($color-danger, 0.9);
+}
+
+.info .toast {
+    background-color: rgba($color-primary, 0.9);
+}
+
+.icon {
+    flex-shrink: 0;
+}
+
+.message {
+    font-size: 0.95rem;
+    white-space: nowrap;
+}
+
+// Entry animation using keyframes for a more "pop" effect if needed
+@keyframes slideIn {
+    from {
+        transform: translateX(-50%) translateY(100px);
+        opacity: 0;
+    }
+
+    to {
+        transform: translateX(-50%) translateY(0);
+        opacity: 1;
+    }
+}
+
+@keyframes slideOut {
+    from {
+        transform: translateX(-50%) translateY(0);
+        opacity: 1;
+    }
+
+    to {
+        transform: translateX(-50%) translateY(20px);
+        opacity: 0;
+    }
+}

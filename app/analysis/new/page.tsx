@@ -12,6 +12,7 @@ import { RangeType, Analysis } from '@/types/analysis';
 import { RANGE_PRESETS, Preset, calculateStatus } from '@/utils/ranges';
 import { UNITS } from '@/utils/units';
 import { Select } from '@/components/Select';
+import { useToast } from '@/context/ToastContext';
 
 const DEFAULT_VALUE: FormValue = {
     name: '',
@@ -41,6 +42,7 @@ function AddAnalysisPageContent() {
     const searchParams = useSearchParams();
     const editId = searchParams.get('editId');
     const [isEditMode, setIsEditMode] = useState(false);
+    const { showToast } = useToast();
 
     const { register, control, handleSubmit, setValue, reset, formState: { errors } } = useForm<ReportForm>({
         defaultValues: {
@@ -97,7 +99,7 @@ function AddAnalysisPageContent() {
         const hasValues = data.sections.some(section => section.values && section.values.length > 0);
 
         if (!hasValues) {
-            alert("Cannot save an empty report. Please add at least one value.");
+            showToast("Cannot save an empty report. Please add at least one value.", "error");
             return;
         }
 
@@ -162,7 +164,7 @@ function AddAnalysisPageContent() {
             console.error('Failed to save to localStorage', error);
         }
 
-        alert(isEditMode ? "Analysis updated successfully!" : "Analysis saved successfully!");
+        showToast(isEditMode ? "Analysis updated successfully!" : "Analysis saved successfully!", "success");
         router.push(isEditMode && editId ? `/analysis/${editId}` : '/');
     };
 

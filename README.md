@@ -5,6 +5,7 @@ myMed is a minimalist and user-friendly web application designed to help users t
 ## Features
 
 - **Dashboard**: Overview of recent medical activities.
+- **Notification System**: Custom "Toast" notification system for feedback (success/error) that persists across page transitions.
 - **Recent Analysis**: List of latest uploaded reports with status indicators and laboratory info.
 - **Analysis Details**: Dedicated page for each report showing detailed values, including multi-segment ranges.
 - **Manual Entry**: Form to add new medical reports with dynamic sections (categories) and values.
@@ -18,6 +19,7 @@ myMed is a minimalist and user-friendly web application designed to help users t
 ## Tech Stack
 
 - **Framework**: Next.js 14+ (App Router)
+- **State Management**: React Context API (for global UI states like Toasts)
 - **Language**: TypeScript
 - **Styling**: SCSS (Modules + Global Variables/Mixins)
 - **Form Management**: React Hook Form
@@ -48,13 +50,16 @@ myMed/
 │   ├── analysis/        # Dynamic detail pages
 │   │   ├── [id]/        # Route: /analysis/:id
 │   │   └── new/         # Route: /analysis/new (Manual Entry)
-│   ├── layout.tsx       # Root layout with Navbar
+│   ├── layout.tsx       # Root layout with Navbar and ToastProvider
 │   ├── page.tsx         # Dashboard page
 │   └── page.module.scss # Dashboard styles
 ├── components/
 │   ├── Dashboard/       # Dashboard widgets (QuickActions, RecentAnalysis, etc.)
-│   └── Layout/          # Layout components (Navbar)
-|   └──Modal/            # Modal component  
+│   ├── Layout/          # Layout components (Navbar)
+│   ├── Modal/           # Reusable Modal component
+│   └── Toast/           # Custom Toast component with CSS animations
+├── context/
+│   └── ToastContext.tsx # Global state for notifications
 ├── styles/
 │   ├── globals.scss     # Global styles and resets
 │   ├── mixins.scss      # SCSS mixins and utilities
@@ -62,7 +67,8 @@ myMed/
 ├── types/               # TypeScript definitions (Analysis, Form)
 ├── utils/
 │   ├── mock.ts          # Centralized mock data
-│   └── ranges.ts        # Range presets and status calculation logic
+│   ├── ranges.ts        # Range presets and status calculation logic
+│   └── units.ts         # Predefined units of measurement
 └── public/              # Static assets
 ```
 
