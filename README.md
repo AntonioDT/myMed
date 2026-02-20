@@ -54,6 +54,7 @@ myMed/
 ├── components/
 │   ├── Dashboard/       # Dashboard widgets (QuickActions, RecentAnalysis, etc.)
 │   └── Layout/          # Layout components (Navbar)
+|   └──Modal/            # Modal component  
 ├── styles/
 │   ├── globals.scss     # Global styles and resets
 │   ├── mixins.scss      # SCSS mixins and utilities
