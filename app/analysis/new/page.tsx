@@ -353,6 +353,7 @@ function ValueRow({ control, sectionIndex, valueIndex, register, remove, setValu
                         <option value="numerico">Numeric</option>
                         <option value="testuale">Textual</option>
                         <option value="multi-range">Multi-segment / Preset</option>
+                        <option value="nessuno">Nessuno</option>
                     </Select>
                 </div>
 

@@ -108,6 +108,9 @@ export const RANGE_PRESETS: Preset[] = [
 ];
 
 export const calculateStatus = (value: number | string, range: Range): { status: string, label?: string } => {
+  if (range.tipo === "nessuno") {
+    return { status: '' };
+  }
   if (range.tipo === 'testuale') {
     const valStr = String(value).toLowerCase();
     const rangeStr = (range.testo || '').toLowerCase();

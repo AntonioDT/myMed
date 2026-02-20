@@ -1,4 +1,4 @@
-export type RangeType = 'numerico' | 'testuale' | 'multi-range';
+export type RangeType = 'numerico' | 'testuale' | 'multi-range' | "nessuno";
 
 export interface RangeSegment {
     min?: number | null;
