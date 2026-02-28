@@ -116,6 +116,7 @@ export default function AnalysisDetail() {
                                     <th>Unit</th>
                                     <th>Range</th>
                                     <th>Status</th>
+                                    <th>Note</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -144,6 +145,9 @@ export default function AnalysisDetail() {
                                             <span className={`${styles.badge} ${styles[val.stato.toLowerCase()] || styles.default}`}>
                                                 {val.stato}
                                             </span>
+                                        </td>
+                                        <td>
+                                            {val.note || '-'}
                                         </td>
                                     </tr>
                                 ))}

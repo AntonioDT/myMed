@@ -23,6 +23,7 @@ export interface Value {
     unitaMisura: string | null;
     range: Range;
     stato: string;
+    note: string | null
 }
 
 export interface Section {

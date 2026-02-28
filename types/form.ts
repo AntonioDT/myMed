@@ -8,6 +8,7 @@ export interface FormValue {
     min?: string;
     max?: string;
     textRange?: string;
+    note?: string;
 }
 
 export interface FormSection {

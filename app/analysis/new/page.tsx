@@ -404,6 +404,11 @@ function ValueRow({ control, sectionIndex, valueIndex, register, remove, setValu
                         </p>
                     </div>
                 )}
+
+                <div className={styles.formGroup}>
+                    <label>Note</label>
+                    <input {...register(`sections.${sectionIndex}.values.${valueIndex}.note`, { required: false })} placeholder="Aggiungi una nota" />
+                </div>
             </div>
         </div>
     );
